@@ -1,0 +1,87 @@
+trigger:
+  branches:
+    include:
+    - dev
+    - homolog
+    - main
+
+pr:
+  branches:
+    include:
+    - dev
+    - homolog
+    - main
+
+stages:
+  - stage: Build
+    displayName: Build Stage
+
+    jobs:
+      - job: Build
+        displayName: Building Okai.Boilerplate.API.csproj
+        pool:
+          vmImage: 'windows-latest'
+
+        steps:
+          - task: NuGetAuthenticate@0
+            displayName: Authenticating NuGet
+
+          - task: NuGetToolInstaller@1
+
+          - task: UseDotNet@2
+            displayName: 'Baixar .NET Core sdk 6.0'
+            inputs:
+              packageType: sdk
+              version: 6.x
+              installationPath: $(Agent.ToolsDirectory)/dotnet
+
+          - task: NuGetCommand@2
+            displayName: 'Baixar pacotes NuGet'
+            inputs:
+              command: 'restore'
+              restoreSolution: '**/*.sln'
+              feedsToUse: 'select'
+              vstsFeed: 'learningfeed'
+
+          - task: DotNetCoreCLI@2
+            displayName: 'Baixar EF Core'
+            inputs:
+              command: 'custom'
+              custom: 'tool'
+              arguments: 'install --global dotnet-ef --version 6.0.0'
+
+          - task: AzureCLI@2
+            displayName: 'Executar Migrations'
+            inputs:
+              azureSubscription: 'INSIRA AQUI A SUA AZURE SUBSCRIPTION'
+              scriptType: 'pscore'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $env:ASPNETCORE_ENVIRONMENT = "$(Build.SourceBranchName)"
+                dotnet ef database update --project Okai.Boilerplate.Infrastructure\Okai.Boilerplate.Infrastructure.csproj --startup-project Okai.Boilerplate.Api\Okai.Boilerplate.Api.csproj
+
+          - script: dotnet test --no-restore
+            displayName: 'Executar Unit Tests'
+
+          - script: dotnet build --configuration Release
+            displayName: 'Build da Aplicação'
+          
+          - task: DotNetCoreCLI@2
+            inputs:
+              command: publish
+              arguments: '--configuration Release --output publish_output'
+              projects: '**/*.csproj'
+              publishWebProjects: false
+              modifyOutputPath: false
+              zipAfterPublish: false
+
+          - task: ArchiveFiles@2
+            displayName: "Archive files"
+            inputs:
+              rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output"
+              includeRootFolder: false
+              archiveFile: "$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip"
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId).zip'
+              artifactName: 'drop'
