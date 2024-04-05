@@ -21,7 +21,6 @@ namespace Okai.Boilerplate.Application.Configuration
         {
             services.AddTransient<IRepositoryManager, RepositoryManager>();
 
-            //Altere aqui
             //Change here
             var databaseConnectionString = configuration["Your-Project-Database-ConnectionString"];
 
@@ -86,7 +85,6 @@ namespace Okai.Boilerplate.Application.Configuration
 
         public static void AddAzureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //Altere aqui
             //Change here
             var connectionString = configuration["Your-Project-FileStorage-ConnectionString"];
 
