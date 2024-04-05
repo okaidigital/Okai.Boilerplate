@@ -1,58 +1,62 @@
-# Português
+## What is a boilerplate?
+In the context of this project, a [boilerplate is a scaffolding](https://aws.amazon.com/pt/what-is/boilerplate-code/), meaning it's a base code project shared that you can use to create new applications with few changes.
 
-## O que é boilerplate?
-No contexto deste projeto, o [boilerplate é um scaffolding](https://aws.amazon.com/pt/what-is/boilerplate-code/), ou seja, um projeto base de código compartilhado que você pode usar para criar novas aplicações fazendo poucas alterações.
-
-## Versão do .NET
+## .NET Version
 .NET 8
 
-## Dependências e Funcionalidades
+## Dependencies and Features
 
-O projeto já está configurado e com todos os packages baixados para:
+The project is already set up and with all packages downloaded for:
 
-- **Autenticação com token JWT**  
-   Utiliza JSON Web Tokens para gerenciar a autenticação de usuários, proporcionando um método seguro e eficiente para a gestão de sessões e identidades.
+- **JWT Authentication**  
+Uses JSON Web Tokens to manage user authentication, providing a secure and efficient method for session and identity management.
 - **Azure Key Vault**  
-   Armazena segredos, como chaves de API e certificados, de forma segura na nuvem, permitindo um gerenciamento centralizado e seguro de informações sensíveis.
+Stores secrets, such as API keys and certificates, securely in the cloud, allowing for centralized and secure management of sensitive information.
 - **SQL Server**  
-   Banco de dados relacional.
+Relational database.
 - **Entity Framework**  
-   Um ORM que simplifica o acesso e a gestão do banco de dados.
-- **CQRS com Mediator**  
-   Implementa o padrão Command Query Responsibility Segregation (CQRS) com o uso da biblioteca Mediator, separando a lógica de leitura e escrita para aumentar a eficiência e a clareza do código.
+An ORM that simplifies database access and management.
+- **CQRS with Mediator**  
+Implements the Command Query Responsibility Segregation (CQRS) pattern with the use of the Mediator library, separating read and write logic to increase code efficiency and clarity.
 - **Azure Storage**  
-  Solução de armazenamento na nuvem para lidar com grandes volumes de dados não estruturados.
+Cloud storage solution for handling large volumes of unstructured data.
 - **Azure Event Bus**  
-   Um serviço de integração de mensagens para facilitar a comunicação assíncrona e a arquitetura orientada a eventos.
-- **DbContext em Design-Time Build**  
-   Permite a configuração do Entity Framework para utilizar segredos armazenados no Azure Key Vault durante a geração e execução de migrations.
-- **Ambientes de Dev, Homolog e Prod separados**  
-   Configurações específicas para cada ambiente são definidas em arquivos appSettings e launchSettings, facilitando a gestão de variáveis de ambiente e configurações por ambiente.
-- **Yaml base para pipeline do Azure**  
-   Um template inicial para a configuração de pipelines de CI/CD no Azure DevOps, automatizando o processo de build, teste e deploy da aplicação.
+A messaging integration service to facilitate asynchronous communication and event-driven architecture.
+- **DbContext in Design-Time Build**  
+Allows the Entity Framework configuration to use secrets stored in Azure Key Vault during migration generation and execution.
+- **Separate Dev, Homolog, and Prod Environments**  
+Specific configurations for each environment are defined in appSettings and launchSettings files, facilitating the management of environment variables and settings by environment.
+- **Base Yaml for Azure Pipeline**  
+An initial template for setting up CI/CD pipelines in Azure DevOps, automating the build, test, and deploy process.
 
-## Versões dos pacotes
-- Entity Framework (Core, Design, Abstractions, SqlServer) - 8.0.3 Modelagem, consulta e persistência de dados.
-- Mass Transit - 8.1.0: Um framework para construir aplicações distribuídas usando mensageria.
-- Azure Identity - 1.10.4: Facilita a autenticação e autorização em serviços do Azure.
-- Azure Security Key Vault - 4.5.0: Permite o acesso seguro a segredos, chaves e certificados armazenados no Azure Key Vault.
+## Package Versions
+- **Entity Framework (Core, Design, Abstractions, SqlServer) - 8.0.3**  
+Data modeling, querying, and persistence.
+- **Mass Transit - 8.1.0**  
+A framework for building distributed applications using messaging.
+- **Azure Identity - 1.10.4**  
+Facilitates authentication and authorization in Azure services.
+- **Azure Security Key Vault - 4.5.0**  
+Enables secure access to secrets, keys, and certificates stored in Azure Key Vault.
 
-## Registro de Serviços Baseado em Atributos
-Este projeto oferece uma abordagem simplificada e baseada em convenções para registrar serviços no contêiner de injeção de dependência integrado do .NET usando atributos.
-Ao utilizar a AttributeServiceExtension, você pode anotar suas classes de serviço com os atributos [ScopedService], [SingletonService] ou [TransientService] para registrá-los automaticamente com o tempo de vida correspondente sem precisar escrever manualmente o código de registro.
+## Attribute-Based Service Registration  
+This project offers a simplified and convention-based approach to register services in the .NET integrated dependency injection container using attributes.
+By using the AttributeServiceExtension, you can annotate your service classes with [ScopedService], [SingletonService], or [TransientService] attributes to automatically register them with the corresponding lifetime without needing to manually write registration code.
 
-Funcionalidades:
-  - Registro de Serviço Baseado em Atributos: Gerencie facilmente o escopo do tempo de vida do seu serviço.
-  - Registro Automático: Os serviços são automaticamente registrados no IServiceCollection fornecido pelo .NET com base nos atributos especificados.
-  - Suporte a Interfaces: Se o seu serviço implementa interfaces, ele registra o serviço pela sua interface para seguir as melhores práticas de injeção de dependência.
-  - Varredura de Assembly Personalizada: Registre serviços de um assembly especificado de forma flexível.
+Features:
 
-Como Usar: Marque suas classes de serviço com os atributos fornecidos de acordo com o tempo de vida desejado:
-   - [ScopedService] para tempo de vida de escopo.
-   - [SingletonService] para tempo de vida único.
-   - [TransientService] para tempo de vida transitório.
-
-Ex:
+- Attribute-Based Service Registration: Easily manage your service's lifetime scope.
+- Automatic Registration: Services are automatically registered in the IServiceCollection provided by .NET based on the specified attributes.
+- Interface Support: If your service implements interfaces, it registers the service by its interface to follow best dependency injection practices.
+- Custom Assembly Scanning: Register services from a specified assembly flexibly.
+  
+How To Use:   
+Mark your service classes with the provided attributes according to the desired lifetime:
+- [ScopedService] for scoped lifetime.
+- [SingletonService] for singleton lifetime.
+- [TransientService] for transient lifetime.
+  
+Example:
 
 ```
     [ScopedService]
@@ -83,36 +87,37 @@ Ex:
 ```
 
 ## azure-pipelines.yml
-O projeto já está pré-configurado com um arquivo .yml com o pipeline do Azure, esse arquivo contém:
-- Triggers de commit e PR nas branches de dev, homolog e main.
-- Task para baixar o .NET SDK.
-- Task para autenticar e baixar pacotes do Nuget.
-- Task para baixar o Entity Framework.
-- Task para executar as migrations no banco de dados.
-- Task para build, publish e archive da aplicação.
+The project is pre-configured with a .yml file for the Azure pipeline, which contains:
+
+- Commit and PR triggers for dev, homolog, and main branches.
+- Task to download the .NET SDK.
+- Task to authenticate and download Nuget packages.
+- Task to download Entity Framework.
+- Task to execute migrations on the database.
+- Task to build, publish, and archive the application.
 
 ## Migrations
-O projeto já está configurado com DbContext em Design-Time Build para buscar a connection string do vault ao criar/executar uma migration.
+The project is configured with DbContext in Design-Time Build to fetch the connection string from the vault when creating/executing a migration.
 
-Como criar uma migration?
-1. Abrir um terminal no projeto Infrastructure.
-2. Execute o comando `$env:ASPNETCORE_ENVIRONMENT = "Dev` para definir qual ambiente você está criando a migration.
-3. Execute o comando `dotnet ef migrations add nomeDaSuaMigration -s ../Caminho.Do.Projeto.Startup/` para criar a migration.
+How to create a migration?
+1. Open a terminal in the Infrastructure project.
+2. Execute the command `$env:ASPNETCORE_ENVIRONMENT = "Dev"` to set which environment you are creating the migration for.
+3. Execute the command `dotnet ef migrations add YourMigrationName -s ../Path.To.Project.Startup/` to create the migration.
 
-Como executar a migration?
-1. Abrir um terminal na raíz da solution.
-2. Execute o comando para setar a variável de ambiente: `$env:ASPNETCORE_ENVIRONMENT = "Dev"`
-3. Execute o comando para dar update no banco: `dotnet ef database update --project Pasta.Do.Seu.Projeto.Infrastructure/Seu.Projeto.Infrastructure.csproj --startup-project Pasta.Do.Seu.Projeto.Startup/Seu.Projeto.Startup.csproj`
+How to execute a migration?
+1. Open a terminal at the root of the solution.
+2. Execute the command to set the environment variable: `$env:ASPNETCORE_ENVIRONMENT = "Dev"`
+3. Execute the command to update the database: `dotnet ef database update --project Path.To.Your.Project.Infrastructure/Your.Project.Infrastructure.csproj --startup-project Path.To.Your.Project.Startup/Your.Project.Startup.csproj`
 
-## Como criar um projeto usando o boilerplate?
-1. Clone o projeto para a sua máquina.
-2. Copie as pastas, menos a pasta oculta .git.
-3. Agora você pode alterar os namespaces de Boilerplate para o nome do seu projeto. (Uma dica é apertar CTRL+SHIFT+F e ir em "Substituir nos Arquivos", assim fica mais rápido de alterar).
-4. Lembre-se de ajustar os segredos armazenados no Azure Key Vault de acordo com as necessidades do seu projeto. Durante a configuração ou atualização do código, você encontrará comentários indicando onde essas modificações são necessárias. Procure no código as marcações "//Altere aqui" para localizar exatamente esses pontos.
-5. Lembre-se de permitir que o seu web app do Azure possa acessar o Azure Key Vault (caso você esteja usando o Azure).
+## How to create a project using the boilerplate?
+1. Clone the project to your machine.
+2. Copy the folders, except the hidden .git folder.
+3. You can now change the namespaces from Boilerplate to your project's name. (A tip is to press CTRL+SHIFT+F and go to "Replace in Files" for quicker changes).
+4. Remember to adjust the secrets stored in Azure Key Vault according to your project's needs. Throughout the configuration or update of the code, you will find comments indicating where these modifications are necessary. Search the code for the "//Change here" markers to locate these specific points.
+5. Remember to allow your Azure web app to access the Azure Key Vault (if you are using Azure).
 
 ## Open Source
-Este projeto é open source, fique a vontade para abrir um pull request e/ou issue :).
+This project is open source, feel free to open a pull request and/or issue :).
 
-## Licença
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
