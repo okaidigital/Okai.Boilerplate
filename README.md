@@ -1,9 +1,7 @@
 # Português
 
 ## O que é boilerplate?
-No contexto deste projeto, o boilerplate é um scaffolding, ou seja, um projeto base de código compartilhado que você pode usar para criar novas aplicações fazendo poucas alterações.
-
-Para mais informações: [Artigo da Amazon](https://aws.amazon.com/pt/what-is/boilerplate-code/)
+No contexto deste projeto, o [boilerplate é um scaffolding](https://aws.amazon.com/pt/what-is/boilerplate-code/), ou seja, um projeto base de código compartilhado que você pode usar para criar novas aplicações fazendo poucas alterações.
 
 ## Versão do .NET
 .NET 8
@@ -114,4 +112,4 @@ Como executar a migration?
 5. Lembre-se de permitir que o seu web app do Azure possa acessar o Azure Key Vault (caso você esteja usando o Azure).
 
 ## Open Source
-Este projeto é open source, sinta-se livre para abrir um pull request e/ou issue :)
+Este projeto é open source, fique a vontade para abrir um pull request e/ou issue :).
