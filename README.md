@@ -1,5 +1,3 @@
-## .NET 6.0
-
 ## Dependencies and Features
 
 ### English
@@ -41,6 +39,16 @@ Ex:
 
 ### Português
 
+### Sobre
+
+## O que é um boilerplate?
+No contexto deste projeto, o boilerplate é um scaffolding, ou seja, um projeto base de código compartilhado que você pode usar para criar novas aplicações fazendo poucas alterações.
+
+Para mais informações: [Artigo da Amazon](https://aws.amazon.com/pt/what-is/boilerplate-code/)
+
+## Versões
+- .NET 6
+
 ## Dependências e Funcionalidades
 
 O projeto já está configurado e com todos os packages baixados para:
@@ -77,3 +85,9 @@ Ex:
 
 ![image](https://github.com/okaidigital/Okai.Boilerplate/assets/155011243/f92ab8bd-cc41-42e8-baa2-66d6951580f8)
 
+
+### Como criar um projeto usando o boilerplate?
+
+
+## Open Source
+Este projeto é open source, sinta-se livre para abrir um pull request e/ou issue :)
