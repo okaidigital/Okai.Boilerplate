@@ -30,6 +30,7 @@ namespace Okai.Boilerplate.Infrastructure.Data.RelationalDatabase
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
+            //Altere aqui
             //Change here
             optionsBuilder.UseSqlServer(finalConfiguration["Your-Project-Database-ConnectionString"]);
 
