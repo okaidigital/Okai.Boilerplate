@@ -12,22 +12,32 @@ Para mais informações: [Artigo da Amazon](https://aws.amazon.com/pt/what-is/bo
 
 O projeto já está configurado e com todos os packages baixados para:
 
-- Autenticação com token JWT.
-- Azure Key Vault.
-- Azure SQL Server.
-- Entity Framework.
-- CQRS com Mediator.
-- Azure Storage.
-- Azure Event Bus.
-- DbContext em Design-Time Build para poder executar migrations com os segredos no vault.
-- Ambientes de Dev, Homolog e Prod separados no appSettings e no launchSettings.
-- Yaml base para pipeline do azure.
-  
+- **Autenticação com token JWT**  
+   Utiliza JSON Web Tokens para gerenciar a autenticação de usuários, proporcionando um método seguro e eficiente para a gestão de sessões e identidades.
+- **Azure Key Vault**  
+   Armazena segredos, como chaves de API e certificados, de forma segura na nuvem, permitindo um gerenciamento centralizado e seguro de informações sensíveis.
+- **SQL Server**  
+   Banco de dados relacional.
+- **Entity Framework**  
+   Um ORM que simplifica o acesso e a gestão do banco de dados.
+- **CQRS com Mediator**  
+   Implementa o padrão Command Query Responsibility Segregation (CQRS) com o uso da biblioteca Mediator, separando a lógica de leitura e escrita para aumentar a eficiência e a clareza do código.
+- **Azure Storage**  
+  Solução de armazenamento na nuvem para lidar com grandes volumes de dados não estruturados.
+- **Azure Event Bus**  
+   Um serviço de integração de mensagens para facilitar a comunicação assíncrona e a arquitetura orientada a eventos.
+- **DbContext em Design-Time Build**  
+   Permite a configuração do Entity Framework para utilizar segredos armazenados no Azure Key Vault durante a geração e execução de migrations.
+- **Ambientes de Dev, Homolog e Prod separados**  
+   Configurações específicas para cada ambiente são definidas em arquivos appSettings e launchSettings, facilitando a gestão de variáveis de ambiente e configurações por ambiente.
+- **Yaml base para pipeline do Azure**  
+   Um template inicial para a configuração de pipelines de CI/CD no Azure DevOps, automatizando o processo de build, teste e deploy da aplicação.
+
 ## Versões dos pacotes
-- Entity Framework (Core, Design, Abstractions, SqlServer) - 8.0.3
-- Mass Transit - 8.1.0
-- Azure Identity - 1.10.4
-- Azure Security Key Vault - 4.5.0
+- Entity Framework (Core, Design, Abstractions, SqlServer) - 8.0.3 Modelagem, consulta e persistência de dados.
+- Mass Transit - 8.1.0: Um framework para construir aplicações distribuídas usando mensageria.
+- Azure Identity - 1.10.4: Facilita a autenticação e autorização em serviços do Azure.
+- Azure Security Key Vault - 4.5.0: Permite o acesso seguro a segredos, chaves e certificados armazenados no Azure Key Vault.
 
 ## Registro de Serviços Baseado em Atributos
 Este projeto oferece uma abordagem simplificada e baseada em convenções para registrar serviços no contêiner de injeção de dependência integrado do .NET usando atributos.
@@ -77,7 +87,7 @@ Ex:
 ## azure-pipelines.yml
 O projeto já está pré-configurado com um arquivo .yml com o pipeline do Azure, esse arquivo contém:
 - Triggers de commit e PR nas branches de dev, homolog e main.
-- Task para baixar .NET sdk.
+- Task para baixar o .NET SDK.
 - Task para autenticar e baixar pacotes do Nuget.
 - Task para baixar o Entity Framework.
 - Task para executar as migrations no banco de dados.
@@ -88,8 +98,8 @@ O projeto já está configurado com DbContext em Design-Time Build para buscar a
 
 Como criar uma migration?
 1. Abrir um terminal no projeto Infrastructure.
-2. Rodar o comando `$env:ASPNETCORE_ENVIRONMENT = "Dev` para definir qual ambiente você está criando a migration.
-3. Rodar o comando `dotnet ef migrations add nomeDaSuaMigration -s ../Caminho.Do.Projeto.Startup/` para criar a migration.
+2. Execute o comando `$env:ASPNETCORE_ENVIRONMENT = "Dev` para definir qual ambiente você está criando a migration.
+3. Execute o comando `dotnet ef migrations add nomeDaSuaMigration -s ../Caminho.Do.Projeto.Startup/` para criar a migration.
 
 Como executar a migration?
 1. Abrir um terminal na raíz da solution.
@@ -100,7 +110,7 @@ Como executar a migration?
 1. Clone o projeto para a sua máquina.
 2. Copie as pastas, menos a pasta oculta .git.
 3. Agora você pode alterar os namespaces de Boilerplate para o nome do seu projeto. (Uma dica é apertar CTRL+SHIFT+F e ir em "Substituir nos Arquivos", assim fica mais rápido de alterar).
-4. Lembre-se de criar e/ou alterar os seus segredos no Azure Key Vault, tem uns comentários no código do boilerplate com as partes em que você deve alterar, você pode encontrar eles buscando por "//Altere aqui".
+4. Lembre-se de ajustar os segredos armazenados no Azure Key Vault de acordo com as necessidades do seu projeto. Durante a configuração ou atualização do código, você encontrará comentários indicando onde essas modificações são necessárias. Procure no código as marcações "//Altere aqui" para localizar exatamente esses pontos.
 5. Lembre-se de permitir que o seu web app do Azure possa acessar o Azure Key Vault (caso você esteja usando o Azure).
 
 ## Open Source
