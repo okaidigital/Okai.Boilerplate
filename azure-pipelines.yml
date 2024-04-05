@@ -23,7 +23,7 @@ stages:
           vmImage: 'windows-latest'
 
         steps:
-          - task: NuGetAuthenticate@0
+          - task: NuGetAuthenticate@1
             displayName: Authenticating NuGet
 
           - task: NuGetToolInstaller@1
