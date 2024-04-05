@@ -113,3 +113,6 @@ Como executar a migration?
 
 ## Open Source
 Este projeto é open source, fique a vontade para abrir um pull request e/ou issue :).
+
+## Licença
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para detalhes.
