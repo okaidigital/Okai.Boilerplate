@@ -7,7 +7,7 @@ namespace Okai.Boilerplate.Infrastructure.Data.RelationalDatabase
     public class RepositoryManager : IRepositoryManager
     {
         private readonly ApplicationDbContext _repositoryContext;
-        private IExampleRepository _exampleRepository;
+        private IExampleRepository? _exampleRepository;
 
         public RepositoryManager(ApplicationDbContext repositoryContext)
         {
