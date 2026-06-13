@@ -21,8 +21,12 @@ namespace Okai.Boilerplate.Infrastructure.Data.RelationalDatabase
             var preliminaryConfiguration = builder.Build();
 
             var keyVaultUrl = preliminaryConfiguration["KeyVaultSettings:Uri"];
+            if (!Uri.TryCreate(keyVaultUrl, UriKind.Absolute, out var keyVaultUri))
+            {
+                throw new InvalidOperationException("KeyVaultSettings:Uri must be configured with an absolute URI.");
+            }
 
-            var client = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
+            var client = new SecretClient(keyVaultUri, new DefaultAzureCredential());
 
             builder.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
 
@@ -30,8 +34,10 @@ namespace Okai.Boilerplate.Infrastructure.Data.RelationalDatabase
 
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-            //Change here
-            optionsBuilder.UseSqlServer(finalConfiguration["Your-Project-Database-ConnectionString"]);
+            var connectionString = finalConfiguration["Your-Project-Database-ConnectionString"] ??
+                throw new InvalidOperationException("The database connection string is not configured.");
+
+            optionsBuilder.UseSqlServer(connectionString);
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }

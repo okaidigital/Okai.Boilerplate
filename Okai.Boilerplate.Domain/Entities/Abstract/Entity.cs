@@ -5,18 +5,19 @@
         public Guid GlobalId { get; set; }
         public int Id { get; set; }
 
-        private readonly List<Event> _events;
-        public IReadOnlyCollection<Event> Eventos => _events.AsReadOnly();
+        private readonly List<Event> _events = new();
+        public IReadOnlyCollection<Event> Events => _events.AsReadOnly();
 
         protected Entity()
         {
+            GlobalId = Guid.NewGuid();
         }
 
         protected Entity(List<Event> events,
             Guid globalId,
             int id)
         {
-            _events = events;
+            _events = events ?? throw new ArgumentNullException(nameof(events));
             GlobalId = globalId;
             Id = id;
         }
@@ -28,17 +29,17 @@
 
         public void RemoveEvent(Event @event)
         {
-            _events?.Remove(@event);
+            _events.Remove(@event);
         }
 
         public void CleanEvents()
         {
-            _events?.Clear();
+            _events.Clear();
         }
 
-        public override bool Equals(object? objeto)
+        public override bool Equals(object? obj)
         {
-            var entity = objeto as Entity;
+            var entity = obj as Entity;
 
             if (ReferenceEquals(this, entity)) return true;
             return entity is not null && GlobalId.Equals(entity.GlobalId);
@@ -52,9 +53,9 @@
             return first.Equals(second);
         }
 
-        public static bool operator !=(Entity first, Entity second)
+        public static bool operator !=(Entity? first, Entity? second)
         {
-            return !first.GlobalId.Equals(second.GlobalId);
+            return !(first == second);
         }
 
         public override int GetHashCode()

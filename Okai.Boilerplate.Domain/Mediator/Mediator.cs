@@ -20,7 +20,7 @@ namespace Okai.Boilerplate.Domain.Mediator
                 await requestMessageHandler.Handle(requestMessage);
             else
                 throw new ApplicationException(
-                    $"Comando: {requestMessage.GetType().Name} - não possui nenhum responsável");
+                    $"Request message {requestMessage.GetType().Name} does not have a registered handler.");
         }
 
         public async Task<TResponseMessage?> SendMessage<TRequestMessage, TResponseMessage>(TRequestMessage requestMessage)
@@ -31,7 +31,8 @@ namespace Okai.Boilerplate.Domain.Mediator
                 IRequestMessageWithStateHandler<TRequestMessage, TResponseMessage> requestMessageHandler)
                 return await requestMessageHandler.Handle(requestMessage);
 
-            throw new ApplicationException($"Comando: {requestMessage.GetType().Name} - não possui nenhum responsável");
+            throw new ApplicationException(
+                $"Request message {requestMessage.GetType().Name} does not have a registered handler.");
         }
 
         public async Task Notify<TNotificationMessage>(TNotificationMessage notificationMessage) where TNotificationMessage : NotificationMessage

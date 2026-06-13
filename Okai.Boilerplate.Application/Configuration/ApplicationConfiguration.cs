@@ -21,8 +21,8 @@ namespace Okai.Boilerplate.Application.Configuration
         {
             services.AddTransient<IRepositoryManager, RepositoryManager>();
 
-            //Change here
-            var databaseConnectionString = configuration["Your-Project-Database-ConnectionString"];
+            var databaseConnectionString = configuration["Your-Project-Database-ConnectionString"] ??
+                throw new InvalidOperationException("The database connection string is not configured.");
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(databaseConnectionString), ServiceLifetime.Transient);
@@ -34,11 +34,6 @@ namespace Okai.Boilerplate.Application.Configuration
             services.RegisterServicesWithAttributes(assembly);
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-        }
-
-        public static void AddAutoMapper(this IServiceCollection services)
-        {
-            services.AddAutoMapper(typeof(ApplicationConfiguration));
         }
 
         public static void AddMediator(this IServiceCollection services)
@@ -85,8 +80,8 @@ namespace Okai.Boilerplate.Application.Configuration
 
         public static void AddAzureServices(this IServiceCollection services, IConfiguration configuration)
         {
-            //Change here
-            var connectionString = configuration["Your-Project-FileStorage-ConnectionString"];
+            var connectionString = configuration["Your-Project-FileStorage-ConnectionString"] ??
+                throw new InvalidOperationException("The Azure Blob Storage connection string is not configured.");
 
             services.AddAzureClients(azureClientsBuilder =>
             {
@@ -99,8 +94,18 @@ namespace Okai.Boilerplate.Application.Configuration
             var settings = configurationBuilder.Build();
 
             var keyVaultUrl = settings["KeyVaultSettings:Uri"];
+            if (string.IsNullOrWhiteSpace(keyVaultUrl) ||
+                keyVaultUrl.Equals("YOUR_VAULT_URL", StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
 
-            var client = new SecretClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
+            if (!Uri.TryCreate(keyVaultUrl, UriKind.Absolute, out var keyVaultUri))
+            {
+                throw new InvalidOperationException("KeyVaultSettings:Uri must be an absolute URI.");
+            }
+
+            var client = new SecretClient(keyVaultUri, new DefaultAzureCredential());
 
             configurationBuilder.AddAzureKeyVault(client, new AzureKeyVaultConfigurationOptions());
         }

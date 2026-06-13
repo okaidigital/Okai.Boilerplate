@@ -5,7 +5,7 @@ namespace Okai.Boilerplate.Application.DTOs.Base
     public abstract class BaseResponseDto
     {
         public HttpStatusCode StatusCode { get; set; }
-        public string Message { get; set; }
+        public string Message { get; set; } = string.Empty;
         public DateTime ResponseTime { get; set; }
         public abstract bool Succeeded { get; }
 

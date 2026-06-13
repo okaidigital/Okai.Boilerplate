@@ -12,7 +12,7 @@ namespace Okai.Boilerplate.Application.DTOs.Base
         }
         public SuccessResponseDto(HttpStatusCode statusCode) : base(statusCode)
         {
-
+            Succeeded = true;
         }
 
         public static SuccessResponseDto? Create(HttpStatusCode statusCode, object? data)

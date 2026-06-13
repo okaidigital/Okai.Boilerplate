@@ -2,14 +2,16 @@ trigger:
   branches:
     include:
     - dev
-    - homolog
+    - staging
+    - master
     - main
 
 pr:
   branches:
     include:
     - dev
-    - homolog
+    - staging
+    - master
     - main
 
 stages:
@@ -29,14 +31,14 @@ stages:
           - task: NuGetToolInstaller@1
 
           - task: UseDotNet@2
-            displayName: 'Baixar .NET Core sdk 8.0'
+            displayName: 'Install .NET SDK 8.0'
             inputs:
               packageType: sdk
               version: 8.x
               installationPath: $(Agent.ToolsDirectory)/dotnet
 
           - task: NuGetCommand@2
-            displayName: 'Baixar pacotes NuGet'
+            displayName: 'Restore NuGet packages'
             inputs:
               command: 'restore'
               restoreSolution: '**/*.sln'
@@ -44,16 +46,16 @@ stages:
               vstsFeed: 'learningfeed'
 
           - task: DotNetCoreCLI@2
-            displayName: 'Baixar EF Core'
+            displayName: 'Install EF Core tools'
             inputs:
               command: 'custom'
               custom: 'tool'
               arguments: 'install --global dotnet-ef --version 8.0.3'
 
           - task: AzureCLI@2
-            displayName: 'Executar Migrations'
+            displayName: 'Run migrations'
             inputs:
-              azureSubscription: 'INSIRA AQUI A SUA AZURE SUBSCRIPTION'
+              azureSubscription: 'YOUR AZURE SUBSCRIPTION'
               scriptType: 'pscore'
               scriptLocation: 'inlineScript'
               inlineScript: |
@@ -61,10 +63,10 @@ stages:
                 dotnet ef database update --project Okai.Boilerplate.Infrastructure\Okai.Boilerplate.Infrastructure.csproj --startup-project Okai.Boilerplate.Api\Okai.Boilerplate.Api.csproj
 
           - script: dotnet test --no-restore
-            displayName: 'Executar Unit Tests'
+            displayName: 'Run unit tests'
 
           - script: dotnet build --configuration Release
-            displayName: 'Build da Aplicação'
+            displayName: 'Build application'
           
           - task: DotNetCoreCLI@2
             inputs:

@@ -17,7 +17,7 @@ namespace Okai.Boilerplate.Domain.Contracts.Data.RelationalDatabase
     public class ListResponse<TEntity> : IListResponse<TEntity> where TEntity : Entity
     {
         public int TotalItems { get; set; }
-        public IEnumerable<TEntity> Data { get; set; }
+        public IEnumerable<TEntity> Data { get; set; } = Enumerable.Empty<TEntity>();
 
         public ListResponse()
         {
